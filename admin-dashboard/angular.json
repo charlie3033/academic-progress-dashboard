@@ -5,17 +5,7 @@
   "projects": {
     "admin-dashboard": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "standalone": false
-        },
-        "@schematics/angular:directive": {
-          "standalone": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -33,12 +23,8 @@
             ],
             "styles": [
               "src/styles.css"
-            ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            ]
+
           },
           "configurations": {
             "production": {
@@ -96,5 +82,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "b6de1169-39ea-485a-adbc-a83a242d0d7f"
   }
 }

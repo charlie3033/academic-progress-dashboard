@@ -313,6 +313,33 @@
       </ul>
     </div>
   </div>
+  <!-- -------------Add Student Popup------------- -->
+  <div class="popup-overlay" *ngIf="showStudentPopup">
+    <div class="popup-box">
+      <h3>🎉 Student Added Successfully!</h3>
+      <div class="popup-content">
+        <div class="popup-field">
+            <p><strong>Roll No : </strong></p>
+            <p><strong>Name : </strong> </p>
+            <p><strong>Department : </strong></p>
+            <p><strong>Semester : </strong></p>
+            <p><strong>Email : </strong></p>
+        </div>
+        <div class="popup-value">
+            <p>{{ addedStudent?.roll }}</p>
+            <p>{{ addedStudent?.name }}</p>
+            <p>{{ addedStudent?.department }}</p>
+            <p>{{ addedStudent?.semester }}</p>
+            <p>{{ addedStudent?.email }}</p>
+        </div>
+      </div>
+      <div class="popup-btn-container">
+        <button class="popup-btn" (click)="showStudentPopup = false">Close</button>
+      </div>
+
+    </div>
+  </div>
+
 
   <!-- Edit Info -->
   <div *ngIf="selectedTab==='editInfo'" class="tab">

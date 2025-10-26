@@ -11,6 +11,7 @@ const resultRoutes = require("./routes/resultRoutes");
 const courseRoutes = require("./routes/courseRoutes");
 const departmentRoutes = require("./routes/departmentRoutes");
 const activityLogRoutes = require("./routes/activityLogRoutes");
+const pendingGradesRoutes = require("./routes/pendingGradesRoute");
 
 const app = express();
 
@@ -26,6 +27,8 @@ app.use("/api/results", resultRoutes);    // Results fetch/create/update
 app.use("/api/departments", departmentRoutes); // Departments fetch
 app.use("/api/activity-log", activityLogRoutes); // Activity log routes
 app.use("/api/students", studentRoutes); // Student Login 
+app.use("/api/pendingGrades", pendingGradesRoutes); // Pending grades 
+
 // Health check route
 app.get("/", (req, res) => {
   res.send(" Student Dashboard Backend is Running");

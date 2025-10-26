@@ -19,7 +19,7 @@ export class StudentService {
     return this.http.get<any>(`${this.baseUrl}/students/roll/${roll}`);
   }
 
-  //add student with auto roll/email/password/semester/result
+  //add student with auto roll/email/password/result
   addStudent(data: any): Observable<any>{
     return this.http.post(`${this.baseUrl}/students/auto`, data);
   }
@@ -67,5 +67,10 @@ export class StudentService {
 
   addActivityLog(message: string){
     return this.http.post(`${this.baseUrl}/activity-log`, {message});
+  }
+
+  //pending Grades
+  getTotalPendingGrades(){
+    return this.http.get<{totalPending: number, students: any[]}>(`${this.baseUrl}/pendingGrades`);
   }
 }

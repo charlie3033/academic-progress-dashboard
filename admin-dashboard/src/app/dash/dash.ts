@@ -27,6 +27,10 @@ export class Dash implements OnInit {
   // For Add Student
   newStudent: any = { name: '', department: '', semester: '' };
 
+  //for add student popup
+  showStudentPopup = false;
+  addedStudent : any = null;
+
   // For Edit Student Info
   editInfoStudent: any = null;
 
@@ -97,24 +101,32 @@ export class Dash implements OnInit {
 
   // ----------------- Add Student -----------------
   prepareAddStudent() {
-    this.newStudent = { name: '', department: '' };
+    this.newStudent = { name: '', department: '', semester: '' };
     this.selectedTab = 'add';
   }
 
   addStudent() {
-    if (!this.newStudent.name || !this.newStudent.department) {
-      this.showNotification("Name & Department are required", "error");
+    if (!this.newStudent.name || !this.newStudent.department || !this.newStudent.semester) {
+      this.showNotification("Name ,Department and semester are required", "error");
       return;
     }
 
-    this.studentService.addStudent(this.newStudent).subscribe(() => {
+    this.studentService.addStudent(this.newStudent).subscribe((res: any) => {
       this.loadStudents();
       this.computeStats();
-      this.logActivity(`Added student ${this.newStudent.name} (${this.newStudent.department})`);
+      this.logActivity(`Added student ${this.newStudent.name} (${this.newStudent.department}) (sem-${this.newStudent.semester})`);
       this.showNotification("Student added successfully!", "success");
+
+      //------------add student popup----------------
+      this.addedStudent = res || this.newStudent;
+      this.showStudentPopup = true;
+
+
       this.cancel();
     });
   }
+
+
 
   // ----------------- Edit Info -----------------
   openEditInfo(student: any) {
@@ -272,6 +284,7 @@ export class Dash implements OnInit {
     const list = [...this.students];
     this.stats.totalStudents = list.length;
     this.stats.totalDepartments = new Set(list.map(s => s.department)).size;
+    this.pendingGrades();
   }
 
   // ----------------- Activity Log -----------------
@@ -481,7 +494,19 @@ logout(){
 
   setTimeout(()=>{
         this.router.navigate(['/login']);
-  });
+  },1000);
 }
+
+//pending-grades
+pendingGrades(){
+  this.studentService.getTotalPendingGrades().subscribe(data => {
+    this.stats.pendingGrades = data.totalPending;
+
+  })
 }
+
+
+
+}
+
 

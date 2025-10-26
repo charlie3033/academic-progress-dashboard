@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const Student = require("../models/Student");
 const Result = require("../models/Result");
 const Course = require("../models/Course");
+const PendingGrades = require("../models/PendingGrades");
 
 // -------------------- GET all students --------------------
 router.get("/", async (req, res) => {
@@ -77,6 +78,8 @@ router.put("/roll/:roll/marks", async (req, res) => {
     result.subjects = subjects; // triggers pre-save totals/percentage/status
     await result.save();
 
+    await PendingGrades.deleteOne({ studentId: student._id });
+    
     res.json({ message: "Marks updated successfully", result });
   } catch (err) {
     console.error("Error updating marks by roll:", err);
@@ -134,13 +137,13 @@ router.post("/login", async (req, res) => {
  */
 router.post("/auto", async (req, res) => {
   try {
-    const { name, department, marks = [] } = req.body;
+    const { name, department, marks = [] ,semester} = req.body;
 
-    if (!name || !department) {
+    if (!name || !department || !semester) {
       return res.status(400).json({ error: "name and department are required" });
     }
 
-    const semester = 1;
+    
 
     // Find next roll number in that department
     const last = await Student.find({ department })
@@ -176,6 +179,13 @@ router.post("/auto", async (req, res) => {
       department
     });
 
+    await PendingGrades.create({
+      studentId: student._id,
+      name: student.name,
+      department: student.department,
+      semester: student.semester
+    })
+
     // Determine subjects: if marks provided, use names/maxMarks; else preload from Course
     let subjectDocs = [];
     if (Array.isArray(marks) && marks.length > 0) {
@@ -192,7 +202,7 @@ router.post("/auto", async (req, res) => {
     // Create Result (pre-save hook will compute totals)
     const result = await Result.create({
       studentId: student._id,
-      semester: String(semester),
+      semester: semester,
       subjects: subjectDocs
     });
 

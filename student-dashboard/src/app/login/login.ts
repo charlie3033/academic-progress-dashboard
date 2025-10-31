@@ -21,15 +21,6 @@ export class Login {
   error = '';
 
   async login() {
-    // this.service.loginStudent({ email: this.email, password: this.password })
-    //   .subscribe({
-    //     next: res => {
-    //       localStorage.setItem('studentToken', res.token);
-    //       this.router.navigate(['/profile']);
-    //     },
-    //     error: err => this.error = err.error?.message || 'Login failed'
-    //   });
-
       try{
         const res:any = await this.http.post('http://localhost:3000/api/students/login', {
           email: this.email.trim(),

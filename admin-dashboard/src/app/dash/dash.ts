@@ -536,11 +536,6 @@ getCoursesByDeptAndSem(dept: string, sem: number){
   return this.courses.filter(
     c => c.department === dept && c.semester === sem);
 }
-
-
-
-
-
 }
 
 

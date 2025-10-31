@@ -84,7 +84,11 @@
             <p>No courses found.</p>
           </ng-template>
         </div>
-        <button class="result-btn" (click)="selectedTab = 'result'">👁️ View Result</button>
+        <div class="upload-result">
+          <button class="result-btn upload" (click)="selectedTab = 'result'">View Result</button>
+          <p class="result-update-true">*Result Published</p>
+        </div>
+
     </div>
 
     <!-- Student-result -->
@@ -126,12 +130,6 @@
       </div>
     </div>
   </div>
-
-
-
-
-
-
 </div>
 
 <div class="print-page" id="print-page">
@@ -181,7 +179,7 @@
   </div>
 </div>
 
-<div class="print-page" id="save-page">
+<div class="save-page" id="save-page">
   <div class="print-container">
     <h2>Student Result</h2>
     <div class="save-info">

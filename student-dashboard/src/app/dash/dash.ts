@@ -4,6 +4,8 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+
 
 
 @Component({
@@ -35,6 +37,9 @@ export class Dash {
     console.log('student',this.student);
     this.loadCourses();
     this.loadResult();
+    if(this.selectedTab === 'profile' || this.selectedTab){
+
+    }
   }
 
   loadCourses(){
@@ -69,17 +74,16 @@ export class Dash {
     const dashboard = document.getElementById('dashboard-container');
     const print = document.getElementById('print-page');
     const save = document.getElementById('save-page');
-    if(this.selectedTab === 'result' && dashboard && save){
-      dashboard.style.display = 'none';
-      save.style.display = 'none';
-    }
+    if (dashboard) dashboard.style.display = 'none';
+    if (save) save.style.display = 'none';
+    if (print) print.style.display = 'block';
     window.print();
     setTimeout(()=>{
       if (save) save.style.display = '';
       if (dashboard) dashboard.style.display = '';
-      if (print) print.style.display = '';
+      if (print) print.style.display = 'none';
 
-    }, 100);
+    }, 200);
   }
 
   logout(){
@@ -98,15 +102,35 @@ export class Dash {
   goBack(): void{
     this.selectedTab = 'profile';
   }
-  async saveResult(){
+  async saveResult() {
     const element = document.getElementById('save-page');
-    if(!element) return;
-    const canvas = await html2canvas(element);
-    const link = document.createElement('a');
-    link.download = `${this.selectedTab}.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
+    if (!element) return;
+    element.style.display = 'block';
+    const canvas = await html2canvas(element, {
+      scale: 3,
+      useCORS: true
+    });
+    const imgData = canvas.toDataURL('image/png');
+    const pxToMm = 0.264583;
+    const contentWidthMM = canvas.width * pxToMm;
+    const contentHeightMM = canvas.height * pxToMm;
+    const marginX = contentWidthMM * 0.1;   
+    const marginY = contentHeightMM * 0.5;  
+    const pdfWidth = contentWidthMM + marginX;
+    const pdfHeight = contentHeightMM + marginY * 2;
+    const pdf = new jsPDF({
+      orientation: pdfWidth > pdfHeight ? 'l' : 'p',
+      unit: 'mm',
+      format: [pdfWidth, pdfHeight]
+    });
+    const x = (pdfWidth - contentWidthMM) / 2;
+    const y = (pdfHeight - contentHeightMM) / 2;
+    pdf.addImage(imgData, 'PNG', x, y, contentWidthMM, contentHeightMM);
+    pdf.save(`${this.student.name}_Result.pdf`);
+    element.style.display = 'none';
   }
+
+
   fullDept(dept: string): any{
     if(dept === 'IT') return 'Information Technology';
     if(dept === 'CIV') return 'Civil Engineering';

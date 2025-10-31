@@ -37,6 +37,7 @@ export class Login {
         }).toPromise();
 
         if(!res || !res.student){
+          alert("InValid Credentials");
           throw new Error('Invalid Login Credentials');
         }
 

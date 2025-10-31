@@ -1,4 +1,4 @@
-<div class="dashboard-container">
+<div class="dashboard-container" id="dashboard-container">
 
   <!-- sidebar -->
   <div class="sidebar">
@@ -17,14 +17,14 @@
 
     <!-- navigation -->
     <div class="nav">
-      <button class="sidebar-button" [class.active]="selectedTab==='profile'" (click)="selectedTab='profile'">👤 Profile</button>
-      <button class="sidebar-button" [class.active]="selectedTab==='result'" (click)="selectedTab='result'">🎓 Result</button>
+      <button class="sidebar-button" [class.active]="selectedTab==='profile'">👤 Profile</button>
+      <button class="sidebar-button" [class.active]="selectedTab==='result'">🎓 Result</button>
     </div>
     <div class="user-profile">
       <div class="user-avatar">S</div>
       <div class="user-info">
         <div class="user-name">{{ student.name}}</div>
-        <div class="user-dept">{{student.department}}(full)</div>
+        <div class="user-dept">{{student.department}} ({{fullDept(student.department)}})</div>
       </div>
     </div>
   </div>
@@ -38,7 +38,7 @@
     </header>
 
     <!-- student-profile -->
-    <div class="profile-section" *ngIf="selectedTab==='profile'">
+    <div class="profile-section" *ngIf="selectedTab==='profile'" id="profileSection">
         <div class="profile-header">
           <h2>Student Profile</h2>
           <p>Welcome <strong>{{student.name}}</strong> Here's your profile overview</p>
@@ -88,7 +88,8 @@
     </div>
 
     <!-- Student-result -->
-    <div class="result-section" *ngIf="selectedTab==='result'">
+    <div class="result-section" *ngIf="selectedTab==='result'" id="resultSection">
+      <button class="back-btn" (click)="goBack()">← Back</button>
       <div class="profile-header">
         <h2>Result</h2>
       </div>
@@ -98,7 +99,7 @@
             <tr>
               <th>Subject</th>
               <th>Marks</th>
-              <th>Max Marks</th>
+              <th>Grades</th>
             </tr>
           </thead>
           <tbody>
@@ -119,8 +120,9 @@
       </div>
 
       <div class="result-control-btn">
-        <button class="save-btn" (click)="printResult()">💾 Save</button>
+        <button class="save-btn" (click)="saveResult()">💾 Save</button>
         <button class="print-btn" (click)="printResult()">🖨️ Print</button>
+
       </div>
     </div>
   </div>
@@ -130,4 +132,98 @@
 
 
 
+</div>
+
+<div class="print-page" id="print-page">
+  <div class="print-container">
+    <h2>Student Result</h2>
+    <div class="print-info">
+        <div class="print-field">
+          <p><strong>Roll No : </strong></p>
+          <p><strong>Name : </strong></p>
+          <p><strong>E-mail : </strong></p>
+          <p><strong>Department : </strong></p>
+          <p><strong>Semester : </strong></p>
+        </div>
+        <div class="print-value">
+          <p>{{ student.roll}}</p>
+          <p>{{ student.name}}</p>
+          <p>{{ student.email}}</p>
+          <p>{{ student.department}}</p>
+          <p>{{ student.semester}}</p>
+        </div>
+    </div>
+    <div class="print-detail">
+        <table class="print-table">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Marks</th>
+              <th>Grades</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sub of result.subjects">
+              <td>{{sub.name}}</td>
+              <td>{{sub.marks}} / 100</td>
+              <td [ngClass]="{'grade-f': getGrade(sub.marks) === 'F'}">{{getGrade(sub.marks)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="print-summary">
+        <p><strong>Total : </strong>{{total}} / {{maxTotal}}</p>
+        <p><strong>Percentage :</strong> {{ percentage }}%</p>
+        <p><strong>Status :</strong>
+          <span [class.pass]="result.status === 'pass'" [class.fail]="result.status === 'fail'"> {{ result.status }}</span>
+        </p>
+      </div>
+  </div>
+</div>
+
+<div class="print-page" id="save-page">
+  <div class="print-container">
+    <h2>Student Result</h2>
+    <div class="save-info">
+        <div class="print-field">
+          <p><strong>Roll No : </strong></p>
+          <p><strong>Name : </strong></p>
+          <p><strong>E-mail : </strong></p>
+          <p><strong>Department : </strong></p>
+          <p><strong>Semester : </strong></p>
+        </div>
+        <div class="print-value">
+          <p>{{ student.roll}}</p>
+          <p>{{ student.name}}</p>
+          <p>{{ student.email}}</p>
+          <p>{{ student.department}}</p>
+          <p>{{ student.semester}}</p>
+        </div>
+    </div>
+    <div class="print-detail">
+        <table class="print-table">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Marks</th>
+              <th>Grades</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sub of result.subjects">
+              <td>{{sub.name}}</td>
+              <td>{{sub.marks}} / 100</td>
+              <td [ngClass]="{'grade-f': getGrade(sub.marks) === 'F'}">{{getGrade(sub.marks)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="print-summary">
+        <p><strong>Total : </strong>{{total}} / {{maxTotal}}</p>
+        <p><strong>Percentage :</strong> {{ percentage }}%</p>
+        <p><strong>Status :</strong>
+          <span [class.pass]="result.status === 'pass'" [class.fail]="result.status === 'fail'"> {{ result.status }}</span>
+        </p>
+      </div>
+  </div>
 </div>

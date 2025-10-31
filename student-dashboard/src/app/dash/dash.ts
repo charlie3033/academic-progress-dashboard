@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import html2canvas from 'html2canvas';
+
 
 @Component({
   selector: 'app-dash',
@@ -63,8 +65,21 @@ export class Dash {
       });
   }
 
-  printResult(){
+  printResult(): void{
+    const dashboard = document.getElementById('dashboard-container');
+    const print = document.getElementById('print-page');
+    const save = document.getElementById('save-page');
+    if(this.selectedTab === 'result' && dashboard && save){
+      dashboard.style.display = 'none';
+      save.style.display = 'none';
+    }
     window.print();
+    setTimeout(()=>{
+      if (save) save.style.display = '';
+      if (dashboard) dashboard.style.display = '';
+      if (print) print.style.display = '';
+
+    }, 100);
   }
 
   logout(){
@@ -80,5 +95,23 @@ export class Dash {
     if (marks >= 36) return 'D';
     return 'F';
   }
-
+  goBack(): void{
+    this.selectedTab = 'profile';
+  }
+  async saveResult(){
+    const element = document.getElementById('save-page');
+    if(!element) return;
+    const canvas = await html2canvas(element);
+    const link = document.createElement('a');
+    link.download = `${this.selectedTab}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+  fullDept(dept: string): any{
+    if(dept === 'IT') return 'Information Technology';
+    if(dept === 'CIV') return 'Civil Engineering';
+    if(dept === 'CSE') return 'Computer Science';
+    if(dept === 'ME') return 'Mechanical Engineering';
+    if(dept === 'ECE') return 'Electronics and Communication';
+  }
 }

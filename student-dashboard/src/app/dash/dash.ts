@@ -29,7 +29,7 @@ export class Dash {
 
   ngOnInit(){
     const stored = localStorage.getItem('student');
-    if(!stored){
+    if(stored === null ){
       alert('Token expired. Please log in again.');
       this.router.navigate(['/login']);
       return;
@@ -113,8 +113,8 @@ export class Dash {
     const pxToMm = 0.264583;
     const contentWidthMM = canvas.width * pxToMm;
     const contentHeightMM = canvas.height * pxToMm;
-    const marginX = contentWidthMM * 0.1;   
-    const marginY = contentHeightMM * 0.5;  
+    const marginX = contentWidthMM * 0.1;
+    const marginY = contentHeightMM * 0.5;
     const pdfWidth = contentWidthMM + marginX;
     const pdfHeight = contentHeightMM + marginY * 2;
     const pdf = new jsPDF({

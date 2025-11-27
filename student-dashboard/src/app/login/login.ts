@@ -18,25 +18,23 @@ export class Login {
   password = '';
   error = '';
 
-  async login() {
-      try{
-        const res:any = await this.http.post('http://localhost:3000/api/students/login', {
-          email: this.email.trim(),
-          password: this.password.trim()
-        }).toPromise();
+  login() {
+  this.http.post('http://localhost:3000/api/students/login', {
+      email: this.email.trim(),
+      password: this.password.trim()
+  })
+  .subscribe({
+      next: (res: any) => {
+        console.log("Login Response:", res);
 
-        if(!res || !res.student){
-          alert("InValid Credentials");
-          throw new Error('Invalid Login Credentials');
-        }
-
-        localStorage.setItem('student',JSON.stringify(res.student));
+        localStorage.setItem('student', JSON.stringify(res.student));
 
         this.router.navigate(['/dash']);
-      }catch(err: any){
-        this.error = err?.message || 'Login failed. Please Try again.';
+      },
+      error: (err) => {
+        this.error = err?.message || 'Login failed. Please try again.';
       }
+  });
+}
 
-
-  }
 }

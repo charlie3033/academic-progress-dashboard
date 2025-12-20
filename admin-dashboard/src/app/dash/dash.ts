@@ -50,7 +50,7 @@ export class Dash implements OnInit {
   studentResults: any[] = [];
 
   // For Activity Log
-  activityLog: { message: string, time: Date, user: string }[] = [];
+  activityLog: { message: string, time: Date}[] = [];
 
   // For Notification
   notifications: { message: string, type: 'success' | 'error' | 'info' }[] = [];
@@ -125,7 +125,7 @@ export class Dash implements OnInit {
     this.studentService.addStudent(this.newStudent).subscribe((res: any) => {
       this.loadStudents();
       this.computeStats();
-      this.logActivity(`Added student ${this.newStudent.name} (${this.newStudent.department}) (sem-${this.newStudent.semester})`,`${localStorage.getItem('adminname')}`);
+      this.logActivity(`Added student ${this.newStudent.name} (${this.newStudent.department}) (sem-${this.newStudent.semester})`);
       this.showNotification("Student added successfully!", "success");
 
       //------------add student popup----------------
@@ -150,7 +150,7 @@ export class Dash implements OnInit {
       .subscribe(() => {
         this.loadStudents();
         this.computeStats();
-        this.logActivity(`Updated info for ${this.editInfoStudent.name}`,`${localStorage.getItem('adminname')}`);
+        this.logActivity(`Updated info for ${this.editInfoStudent.name}`);
         this.showNotification("Student info updated!", "success");
         this.cancel();
         this.cdr.detectChanges();
@@ -179,7 +179,7 @@ export class Dash implements OnInit {
       this.studentService.deleteStudentByRoll(student.roll).subscribe(() => {
         this.loadStudents();
         this.computeStats();
-        this.logActivity(`Deleted student ${student.name}`,`${localStorage.getItem('adminname')}`);
+        this.logActivity(`Deleted student ${student.name}`);
         this.showNotification("Student deleted!", "success");
       });
     }
@@ -306,9 +306,9 @@ export class Dash implements OnInit {
     }
 
     // Save log
-    private logActivity(message: string,user : string) {
-      this.studentService.addActivityLog(message,user).subscribe(() => {
-        this.loadActivityLog(); // refresh UI after adding
+    private logActivity(message: string) {
+      this.studentService.addActivityLog(message).subscribe(() => {
+        this.loadActivityLog(); 
       });
     }
 
@@ -384,7 +384,7 @@ saveStudentMarks() {
   ).subscribe(() => {
     this.loadStudents();
     this.computeStats();
-    this.logActivity(`Updated grades for ${this.selectedStudentForGrade.name}`,`${localStorage.getItem('adminname')}`);
+    this.logActivity(`Updated grades for ${this.selectedStudentForGrade.name}`);
     this.showNotification("Grades updated successfully!", "success");
     this.cancelGradeUpdate();
   });

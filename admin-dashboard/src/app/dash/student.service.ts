@@ -69,8 +69,12 @@ export class StudentService {
     return this.http.get<any[]>(`${this.baseUrl}/activity-log`);
   }
 
-  addActivityLog(message: string,user: string){
-    return this.http.post(`${this.baseUrl}/activity-log`, {message,user});
+  addActivityLog(message: string){
+    return this.http.post(`${this.baseUrl}/activity-log`, {message},{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
   }
 
   //pending Grades

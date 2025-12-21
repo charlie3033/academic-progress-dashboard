@@ -50,7 +50,7 @@ export class Dash implements OnInit {
   studentResults: any[] = [];
 
   // For Activity Log
-  activityLog: { message: string, time: Date}[] = [];
+  activityLog: { message: string, time: Date, user: string}[] = [];
 
   // For Notification
   notifications: { message: string, type: 'success' | 'error' | 'info' }[] = [];
@@ -308,7 +308,7 @@ export class Dash implements OnInit {
     // Save log
     private logActivity(message: string) {
       this.studentService.addActivityLog(message).subscribe(() => {
-        this.loadActivityLog(); 
+        this.loadActivityLog();
       });
     }
 

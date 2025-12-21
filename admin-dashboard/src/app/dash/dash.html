@@ -282,7 +282,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let log of activityLog">
-                
+
                 <td class="time">{{ log.time | date:'yyyy-MM-dd' }} &nbsp;&nbsp;&nbsp;{{log.time | date:'shortTime'}}</td>
                 <td class="msg">{{ log.message }}</td>
               </tr>
@@ -321,7 +321,6 @@
             <label>Semester</label>
             <select name="semester" required [(ngModel)]="newStudent.semester">
               <option value="1" selected>1</option>
-              <option value="2" >2</option>
             </select>
             </div>
 

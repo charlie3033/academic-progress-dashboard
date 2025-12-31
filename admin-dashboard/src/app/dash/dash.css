@@ -9,12 +9,14 @@
   display: flex;
   min-height: 100vh;
   overflow: hidden;
+  background: linear-gradient(135deg, #82b0ec, #acec77);
   /* background: #f9f9f9; */
 }
 
 .sidebar {
   width: 256px;
-  background: #4C763B;
+  /* background: #4C763B;*/
+  background: linear-gradient(135deg, #164179, #5e8340);
   border-right: 1px solid #e2e8f0;
   display: flex;
   color: white;
@@ -84,7 +86,7 @@
   border-radius: 8px;
   text-decoration: none;
   color: #ecf0f1;
-  font-size: 14px;
+  font-size: 16px;
   transition: all 0.2s ease;
   background: transparent;
   border: none;
@@ -92,10 +94,11 @@
 }
 
 .sidebar button:hover{
-  background: #1f5705;
+  background: #276809;
 }
 .sidebar button.active {
   background: #043915;
+  border: 1px solid gray;
 }
 .export{
   display:flex;
@@ -167,7 +170,9 @@
 }
 .header {
     height: 64px;
-    background: #4C763B;
+    /* background: #4C763B; */
+    background: linear-gradient(150deg, #164179, #5e8340);
+    background:  #164179;
     border-bottom: 1px solid #e2e8f0;
     padding: 0 24px;
     display: flex;

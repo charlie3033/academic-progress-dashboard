@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/Admin");
 const authAdmin = require("../middleware/authAdmin"); // middleware
+const axios = require("axios");
 
 const router = express.Router();
 
@@ -19,11 +20,11 @@ router.get("/dashboard", authAdmin, async (req, res) => {
 // Register Admin
 router.post("/register", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, phone } = req.body;
     const existing = await Admin.findOne({ username });
     if (existing) return res.status(400).json({ msg: "Username already exists" });
 
-    const newAdmin = new Admin({ username, password });
+    const newAdmin = new Admin({ username, password, phone });
     await newAdmin.save();
 
     res.status(201).json({ msg: "Admin registered successfully" });
@@ -37,19 +38,68 @@ router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
     const admin = await Admin.findOne({ username });
-    if (!admin) return res.status(400).json({ msg: "Invalid credentials" });
+    if (!admin) return res.status(401).json({ msg: "Invalid credentials" });
 
     const isMatch = await bcrypt.compare(password, admin.password);
-    if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
+    if (!isMatch) return res.status(401).json({ msg: "Invalid credentials" });
 
-    const token = jwt.sign({ id: admin._id, role: "admin" }, process.env.JWT_SECRET, {
-      expiresIn: "1d"
+    //otp
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    admin.otp = otp;
+    admin.otpExpiry = Date.now() + 10 * 60 * 1000;// 10 minutes
+    await admin.save();
+
+    //send otp to admin 
+    try{
+      await axios.post("https://www.fast2sms.com/dev/bulkV2",
+        {
+          route: "otp",
+          // message: `Your OTP is ${otp}. It is valid for 10 minutes.`,
+          variables_values: otp,
+          numbers: admin.phone
+        },
+        {
+          headers: {
+            authorization: process.env.FAST2SMS_KEY,
+            "Content-Type": "application/json"
+          }
+        }
+      );          
+      console.log("ADMIN OTP:", otp);
+
+    res.json({
+      message:"otp sent",
+      userId: admin._id,
+      number:  `+91-${admin.phone.slice(2,4)}****${admin.phone.slice(-4) }`
     });
-
-    res.json({ token, username: admin.username });
+    }
+    catch(err){
+      console.error("Error sending OTP:", err.message);
+      return res.status(500).json({ error: "Failed to send OTP" });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
+router.post("/verify-otp", async (req, res) => {
+  const { userId, otp } = req.body;
+
+  const admin = await Admin.findById(userId);
+  if (!admin || admin.otp !== otp || Date.now() > admin.otpExpiry) {
+    return res.status(400).json({ error: "Invalid or expired OTP" });
+  }
+
+  admin.otp = null;
+  admin.otpExpiry = null;
+  await admin.save();
+
+  const token = jwt.sign({ id: admin._id, role:"admin" }, process.env.JWT_SECRET, {
+    expiresIn: "2h"
+  });
+
+  res.json({ token });
+});
+
 
 module.exports = router;

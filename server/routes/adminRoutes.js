@@ -9,7 +9,7 @@ sgMail.setApiKey(process.env.SENDGRID_KEY);
 
 
 const router = express.Router();
-let otpStore = {};
+// let otpStore = {};
 
 // Protected route: Dashboard
 router.get("/dashboard", authAdmin, async (req, res) => {
@@ -52,17 +52,20 @@ router.post("/login", async (req, res) => {
       return res.status(500).json({ msg: "Admin email missing" });
     }
 
-    const existing = otpStore[admin.email];
-    if (existing && Date.now() < existing.expiresAt - 4 * 60 * 1000) {
-      return res.json({ email: admin.email }); // don't resend new OTP
-    }
+    // const existing = otpStore[admin.email];
+    // if (existing && Date.now() < existing.expiresAt - 4 * 60 * 1000) {
+    //   return res.json({ email: admin.email }); // don't resend new OTP
+    // }
 
     const otp = Math.floor(100000 + Math.random() * 900000);
-    otpStore[admin.email] = {
-      otp,
-      userId: admin._id,
-      expiresAt: Date.now() + 5 * 60 * 1000 // 5 minutes
-    };
+    // otpStore[admin.email] = {
+    //   otp,
+    //   userId: admin._id,
+    //   expiresAt: Date.now() + 5 * 60 * 1000 // 5 minutes
+    // };
+    admin.otp = otp.toString();
+    admin.otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000)
+    await admin.save();
     // let transporter = nodemailer.createTransport({
     //   service: "gmail",
     //   auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
@@ -100,23 +103,26 @@ router.post("/send-otp", async (req, res) => {
   try {
     const { email } = req.body;
     const RESEND_COOLDOWN = 30 * 1000; // 30 seconds
-    const existing = otpStore[email];
-    if (existing && Date.now() < existing.lastSent + RESEND_COOLDOWN) {
-      return res.status(429).json({ msg: "Wait before requesting again" });
-    }
+    // const existing = otpStore[email];
+    // if (existing && Date.now() < existing.lastSent + RESEND_COOLDOWN) {
+    //   return res.status(429).json({ msg: "Wait before requesting again" });
+    // }
     
     const admin = await Admin.findOne({ email });
     if (!admin) return res.status(404).json({ msg: "Admin not found" });
 
     const otp = Math.floor(100000 + Math.random() * 900000);
 
-    otpStore[email] = {
-      otp,
-      userId: admin._id,
-      expiresAt: Date.now() + 5 * 60 * 1000,
-      lastSent: Date.now()
-    };
+    // otpStore[email] = {
+    //   otp,
+    //   userId: admin._id,
+    //   expiresAt: Date.now() + 5 * 60 * 1000,
+    //   lastSent: Date.now()
+    // };
 
+    admin.otp = otp.toString();
+    admin.otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000)
+    await admin.save();
     // const transporter = nodemailer.createTransport({
     //   service: "gmail",
     //   auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
@@ -150,29 +156,57 @@ router.post("/send-otp", async (req, res) => {
 router.post("/verify-otp", async (req, res) => {
   try {
     const { email, otp } = req.body;
-    const record = otpStore[email];
+  //   const record = otpStore[email];
 
-    if (!record) {
+  //   if (!record) {
+  //     return res.status(400).json({ msg: "OTP expired. Login again." });
+  //   }
+
+  //   if (Date.now() > record.expiresAt) {
+  //     delete otpStore[email];
+  //     return res.status(400).json({ msg: "OTP expired" });
+  //   }
+
+  //   if (record.otp != otp) {
+  //     return res.status(400).json({ msg: "Invalid OTP" });
+  //   }
+
+  //   const token = jwt.sign(
+  //     { id: record.userId, role: "admin" },
+  //     process.env.JWT_SECRET,
+  //     { expiresIn: "2h" }
+  //   );
+  //   delete otpStore[email]; // Remove OTP after successful verification
+    const admin = await Admin.findOne({ email });
+    if (!admin || !admin.otp) {
       return res.status(400).json({ msg: "OTP expired. Login again." });
     }
 
-    if (Date.now() > record.expiresAt) {
-      delete otpStore[email];
+    if (new Date() > admin.otpExpiresAt) {
+      admin.otp = null;
+      admin.otpExpiresAt = null;
+      await admin.save();
       return res.status(400).json({ msg: "OTP expired" });
     }
 
-    if (record.otp != otp) {
+    if (admin.otp !== otp.toString()) {
       return res.status(400).json({ msg: "Invalid OTP" });
     }
 
+    // success
     const token = jwt.sign(
-      { id: record.userId, role: "admin" },
+      { id: admin._id, role: "admin" },
       process.env.JWT_SECRET,
       { expiresIn: "2h" }
     );
-    delete otpStore[email]; // Remove OTP after successful verification
+
+    admin.otp = null;
+    admin.otpExpiresAt = null;
+    await admin.save();
+
     res.json({ token });
   } catch (err) {
+    console.error("VERIFY OTP ERROR:", err);
     res.status(500).json({ error: err.message });
   }
 });

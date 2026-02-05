@@ -193,9 +193,9 @@
               placeholder="Search by name or roll.." />
           </div>
             <label class="grade-dept">Department
-            <select class="filter" [(ngModel)]="gradeSearchDept" (change)="loadStudents()">
+            <select class="filter" [(ngModel)]="gradeSearchDept" (change)="loadGradeStudents()">
               <option value="">All</option>
-              <option *ngFor="let d of departments" [value]="d.name">{{d.name}}</option>
+              <option *ngFor="let d of departments" [value]="d.code">{{d.name}}</option>
             </select>
             </label>
 
@@ -475,7 +475,7 @@
 
     <select [(ngModel)]="resultSearchDept" (change)="loadStudents()" class="result-select">
       <option value="">All Departments</option>
-      <option *ngFor="let dept of departments" [value]="dept.name">{{ dept.name }}</option>
+      <option *ngFor="let dept of departments" [value]="dept.code">{{ dept.name }}</option>
     </select>
     <label class="pending-label">Show Pending Grades</label>
     <label class="switch">

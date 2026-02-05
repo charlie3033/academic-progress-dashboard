@@ -122,6 +122,24 @@ export class Dash implements OnInit {
       this.cdr.detectChanges();
     });
   }
+  loadonlyStudents() {
+    this.studentService.getAllStudents().subscribe(data => {
+      this.students = data || [];
+      this.computeStats();
+      this.cdr.detectChanges();
+    });
+  }
+  loadGradeStudents() {
+    this.studentService.getAllStudents().subscribe(data => {
+      if (this.gradeSearchDept) {
+        this.students = data.filter(s => s.department === this.gradeSearchDept);
+      } else {
+        this.students = data || [];
+      }
+      this.computeStats();
+      this.cdr.detectChanges();
+    });
+  }
 
   // ----------------- Departments -----------------
   loadDepartments() {
@@ -245,7 +263,13 @@ export class Dash implements OnInit {
   clearFilter(){
     this.searchTerm = "";
     this.filterDept = "";
-    this.loadStudents();
+    this.resultSearchTerm = '';
+    this.resultSearchDept = '';
+    this.isAllPendingEnabled = false;
+    this.gradeSearchTerm = "";
+    this.gradeSearchDept = "";
+    this.isPendingEnabled = false;
+    this.loadonlyStudents();
   }
   // ----------------- Search + Sort -----------------
   searchTerm: string = "";
@@ -253,6 +277,7 @@ export class Dash implements OnInit {
   sortDirection: 'asc' | 'desc' = 'asc';
 
   get filteredStudents() {
+    this.loadStudents();
     let data = [...this.students];
 
     // Search filter
@@ -362,6 +387,7 @@ selectedStudentForGrade: any = null;
 
 // Search students by roll, name, department
 get searchStudents() {
+  this.loadGradeStudents();
   let results = [...this.students];
   const term = this.gradeSearchTerm.trim().toLowerCase();
   const dept = this.gradeSearchDept.trim();
@@ -389,8 +415,13 @@ get searchStudents() {
 clearSearch() {
   this.gradeSearchTerm = "";
   this.gradeSearchDept = "";
+  this.searchTerm = "";
+  this.filterDept = "";
   this.isPendingEnabled = false;
-  // this.loadStudents();
+  this.resultSearchTerm = '';
+  this.resultSearchDept = '';
+  this.isAllPendingEnabled = false;
+  this.loadonlyStudents();
 }
 
 // Select student to edit grades
@@ -462,6 +493,12 @@ clearResultFilters() {
   this.resultSearchTerm = '';
   this.resultSearchDept = '';
   this.isAllPendingEnabled = false;
+  this.gradeSearchTerm = "";
+  this.gradeSearchDept = "";
+  this.searchTerm = "";
+  this.filterDept = "";
+  this.isPendingEnabled = false;
+  this.loadonlyStudents();
 }
 
 viewResult(student: any) {

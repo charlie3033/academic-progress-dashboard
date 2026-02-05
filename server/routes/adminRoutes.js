@@ -16,7 +16,6 @@ const transporter = nodemailer.createTransport({
 
 
 const router = express.Router();
-// let otpStore = {};
 
 // Protected route: Dashboard
 router.get("/dashboard", authAdmin, async (req, res) => {
@@ -172,6 +171,7 @@ router.post("/verify-otp", async (req, res) => {
   
     const admin = await Admin.findOne({ email });
     if (!admin || !admin.otp) {
+      console.log("OTP expired. Login again.",email);
       return res.status(400).json({ msg: "OTP expired. Login again." });
     }
 
@@ -179,10 +179,12 @@ router.post("/verify-otp", async (req, res) => {
       admin.otp = null;
       admin.otpExpiresAt = null;
       await admin.save();
+      console.log("OTP expired for email:", email);
       return res.status(400).json({ msg: "OTP expired" });
     }
 
     if (admin.otp !== otp.toString()) {
+      console.log("Invalid OTP attempt for email:", email);
       return res.status(400).json({ msg: "Invalid OTP" });
     }
 

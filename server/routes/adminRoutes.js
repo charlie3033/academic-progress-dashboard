@@ -9,10 +9,10 @@ const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
   // service: "gmail",
-  host: "smtp.gmail.com",
+  host: "smtp.sendgrid.net",
   port: 587,
   secure: false,
-  auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+  auth: { user: "apikey"/*process.env.EMAIL_USER*/, pass: process.env.SENDGRID_KEY }
 });
 
 const router = express.Router();

@@ -169,7 +169,7 @@ router.post("/verify-otp", async (req, res) => {
   try {
     const { email, otp } = req.body;
   
-    const admin = await Admin.findOne({ email });
+    const admin = await Admin.findOne({ otp, email });
     if (!admin || !admin.otp) {
       console.log("OTP expired. Login again.",email);
       return res.status(400).json({ msg: "OTP expired. Login again." });

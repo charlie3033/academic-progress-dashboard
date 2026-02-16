@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "academic-progress-dashboard"
+  },
+  "targets": {
+    "academic-progress-dashboard": {
+      "hosting": {
+        "admin": [
+          "admin-academic-dashboard"
+        ],
+        "student": [
+          "student-academic-dashboard-339c0"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

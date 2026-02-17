@@ -1,1 +1,19 @@
+# Node
+node_modules/
+
+# Angular build
+dist/
+
+# Firebase
+.firebase/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
 .env
+
+# Cache
+.cache/

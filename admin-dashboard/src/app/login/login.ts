@@ -30,6 +30,10 @@ export class Login {
   constructor(private http: HttpClient,private router: Router,private cdr: ChangeDetectorRef){}
 
   onSubmit(){
+    if(!this.username || !this.password) {
+      alert('Please enter username and password');
+      return;
+    }
     if(this.isLoading) return;
     this.isLoading=true;
 
@@ -49,10 +53,10 @@ export class Login {
         // localStorage.setItem('adminname',this.username);
         // this.router.navigate(['/admin/dashboard']);
       },error: ()=>{
-        alert('Invalid credentials');
         this.isLoading=false;
         this.showOtp=false;
         this.cdr.detectChanges();
+        alert('Invalid credentials');
       }
     });
   }

@@ -1,18 +1,27 @@
-<html>
+<!-- <html>
   <head>
     <meta charset="UTF-8">
     <title>Student Login</title>
   </head>
-  <body>
-    <div class="login">
-      <div class="login-container">
-      <h2>Student Login!</h2>
+  <body> -->
+    <div class="login-wrapper">
+      <div class="login-card">
+          <div class="avatar-circle">
+            <span class="avatar-icon">👤</span>
+          </div>
+
+          <h2>Student Login!</h2>
       <form id="loginForm" (ngSubmit)="login()">
-        <input [(ngModel)]="email" type="email" name="email" placeholder="Email" required id="email"/>
-        <input [(ngModel)]="password" id="password" name="password" type="password" placeholder="Password" required />
-        <button type="submit">Login</button>
+        <div class="input-group">
+          <input [(ngModel)]="email" type="email" name="email" placeholder="Email" required id="email"/>
+        </div>
+          <div class="input-group">
+            <input [(ngModel)]="password" id="password" name="password" type="password" placeholder="Password" required />
+          </div>
+        <button class="login-btn" type="submit">Login</button>
       </form>
-      <a class="forgot" (click)="openForgot()">Forgot Password?</a>
+
+      <a class="link-btn" (click)="openForgot()">Forgot Password?</a>
       </div>
       <br>
     </div>
@@ -52,7 +61,7 @@
       </div> -->
 
 
-  </body>
-</html>
+  <!-- </body>
+</html> -->
 
 

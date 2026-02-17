@@ -113,3 +113,13 @@ node_modules/
 .env
 /dist
 /environments
+environment.ts
+/firebase
+environment.prod.ts
+admin-dashboard/src/environments/
+admin-dashboard/src/environments/environment.ts
+admin-dashboard/src/environments/environment.prod.ts
+
+student-dashboard/src/environments/
+student-dashboard/src/environments/environment.ts
+student-dashboard/src/environments/environment.prod.ts

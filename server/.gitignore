@@ -113,3 +113,6 @@ node_modules/
 .env
 /dist
 /environments
+environment.ts
+/firebase
+environment.prod.ts

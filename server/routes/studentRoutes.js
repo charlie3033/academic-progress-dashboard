@@ -93,18 +93,18 @@ router.put("/roll/:roll/marks", async (req, res) => {
 // -------------------- POST /api/students/login --------------------
 router.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { roll, password } = req.body;
 
-    // 1. Find student by email
-    const student = await Student.findOne({ email });
+    // 1. Find student by roll
+    const student = await Student.findOne({ roll });
     if (!student) {
-      return res.status(400).json({ error: "Invalid email or password" });
+      return res.status(400).json({ error: "Invalid credentials" });
     }
 
     // 2. Compare hashed password
     const isMatch = await bcrypt.compare(password, student.password);
     if (!isMatch) {
-      return res.status(400).json({ error: "Invalid email or password" });
+      return res.status(400).json({ error: "Invalid credentials" });
     }
 
     // 3. Respond with student info (safe fields only)

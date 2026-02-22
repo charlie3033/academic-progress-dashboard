@@ -28,7 +28,7 @@ export class Login {
 
   login() {
     this.http.post(`${environment.apiUrl}/students/login`, {
-        email: this.email.trim(),
+        roll: this.email.trim(),
         password: this.password.trim()
     })
     .subscribe({

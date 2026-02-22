@@ -432,16 +432,11 @@
 }
 
 .styled-table tr:nth-child(even) {
-  background-color: #f9fafb;
+  background-color: #a7a8a83a;
 }
-.styled-table th:hover {
-  background: #eaecee;
+.grade-styled-table tr:nth-child(even) {
+  background-color: #a7a8a83a;
 }
-
-.styled-table tr:nth-child(even) {
-  background: #fafafa;
-}
-
 /* Buttons */
 .btn {
   padding: 6px 12px;
@@ -560,10 +555,7 @@
 }
 
 .activity-log-table tr:nth-child(even) {
-  background-color: #f9fafb;
-}
-.activity-log-table tr:nth-child(even) {
-  background: #fafafa;
+  background-color: #a7a8a83a;
 }
 
 .activity-log-table .time {
@@ -1162,12 +1154,6 @@ margin-bottom: 10px;
 .grade-styled-table thead th{
   width: 10px;
 }
-.grade-styled-table tr:nth-child(even) {
-  background-color: #f9fafb;
-}
-.grade-styled-table tr:nth-child(even) {
-  background: #fafafa;
-}
 
 .delete-dept {
   background-color: #DC3545;
@@ -1268,3 +1254,118 @@ margin-bottom: 10px;
   background: #c82333;
 }
 
+.dashboard-container {
+  background: #F8F4E1;
+}
+.sidebar {
+  background: #543310;
+  color: #F8F4E1;
+  border-right: 1px solid #74512D;
+}
+
+.sidebar button:hover {
+  background: #74512D;
+}
+
+.sidebar button.active {
+  background: #976839;
+}
+.export {
+  background: #74512D;
+  color: #F8F4E1;
+}
+
+.export:hover {
+  background: #AF8F6F;
+}
+.user-avatar {
+  background: #AF8F6F;
+  color: #543310;
+}
+.header {
+  background: #8b6844;
+  color: #543310;
+  border-bottom: 2px solid #74512D;
+}
+
+.header h1 {
+  color: #e7e3df;
+}
+.logOut-btn {
+  background: #543310;
+  color: #F8F4E1;
+}
+
+.logOut-btn:hover {
+  background: #74512D;
+}
+.card,
+.std-card,
+.panel,
+.department-card,
+.result-panel {
+  background: #f0ecec;
+  border-radius: 16px;
+  border: 1px solid #E6D8C7;
+  box-shadow: 0 6px 18px rgba(84, 51, 16, 0.08);
+  color: #543310;
+}
+.main-header h2,
+.overview-section h2 {
+  color: #543310;
+}
+
+.main-header p,
+.overview-section p {
+  color: #74512D;
+}
+.stat-card {
+  background: #ccb094;
+  color: #F8F4E1;
+  border-radius: 12px;
+}
+
+.stat-card h3 {
+  color: #ffffff;
+}
+.styled-table thead,
+.grade-styled-table thead,
+.activity-log-table thead {
+  background: #AF8F6F;
+}
+.btn.primary,
+.view-btn,
+.add-form-btn.success {
+  background: #74512D;
+  color: #F8F4E1;
+}
+
+input,
+select {
+  background: #ecebe3;
+  border: 1px solid #5c4a39;
+  color: #543310;
+  border-radius: 8px;
+}
+
+
+.clear-filter {
+  background: #e03512;
+  color: white;
+}
+
+.btn-edit ,.btn-delete{
+  background: #AF8F6F;
+  color: #F8F4E1;
+  border: 1px solid #AF8F6F;
+}
+.btn-result ,.btn-marks{
+  background: #74512D;
+  color: #F8F4E1;
+  border: 1px solid #74512D;
+}
+.edit-grade {
+  background: #74512D;
+  color: #F8F4E1;
+  border: 1px solid #AF8F6F;
+}

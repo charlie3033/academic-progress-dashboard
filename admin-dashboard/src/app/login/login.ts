@@ -97,7 +97,7 @@ export class Login {
   }
 
   startResendTimer() {
-    this.resendTimer = 30;
+    this.resendTimer = 60;
 
     this.timerInterval = setInterval(() => {
       this.resendTimer--;

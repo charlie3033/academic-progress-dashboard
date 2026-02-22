@@ -32,6 +32,13 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "html2canvas",
+              "canvg",
+              "core-js",
+              "raf",
+              "rgbcolor"
+            ],
             "outputPath": "dist/student-academic-dash",
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
@@ -56,13 +63,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "10kB",
+                  "maximumError": "20kB"
                 }
               ],
               "outputHashing": "all"

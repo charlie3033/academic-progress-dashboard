@@ -164,10 +164,10 @@
                 </span>
               </td>
               <td>
-                <button class="btn primary" (click)="openEditInfo(s)">Edit Info</button>
-                <button class="btn secondary" (click)="openEditMarks(s)">Marks</button>
-                <button class="btn success manage-result" (click)="viewSingleResult(s)" [disabled]="isGradePending(s)">Results</button>
-                <button class="btn danger" (click)="deleteStudent(s)">Delete</button>
+                <button class="btn btn-edit" (click)="openEditInfo(s)">Edit Info</button>
+                <button class="btn btn-marks" (click)="openEditMarks(s)">Marks</button>
+                <button class="btn btn-result manage-result" (click)="viewSingleResult(s)" [disabled]="isGradePending(s)">Results</button>
+                <button class="btn btn-delete" (click)="deleteStudent(s)">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -232,7 +232,7 @@
                   </span>
                 </td>
                 <td>
-                  <button class="edit-grade btn secondary"(click)="selectStudentForGrades(s)">Edit Grades</button>
+                  <button class="edit-grade btn" (click)="selectStudentForGrades(s)">Edit Grades</button>
                 </td>
               </tr>
             </tbody>

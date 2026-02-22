@@ -32,6 +32,9 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "file-saver"
+            ],
             "outputPath": "dist/admin-academic-dash",
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",

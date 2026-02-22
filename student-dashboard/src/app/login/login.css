@@ -109,6 +109,7 @@
   align-items: center;
   background: linear-gradient(135deg, #8e5c6c, #2b3a67);
   font-family: 'Segoe UI', sans-serif;
+  background: #f7f7f7;
 }
 
 /* Glass Card */
@@ -119,9 +120,10 @@
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(18px);
   border-radius: 20px;
-  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 25px 45px rgba(199, 139, 10, 0.521);
   color: white;
   text-align: center;
+  background: linear-gradient(135deg, #e09e4d, #854517);
 }
 
 /* Avatar */

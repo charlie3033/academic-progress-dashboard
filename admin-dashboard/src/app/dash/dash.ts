@@ -277,7 +277,7 @@ export class Dash implements OnInit {
   sortDirection: 'asc' | 'desc' = 'asc';
 
   get filteredStudents() {
-    this.loadStudents();
+    // this.loadStudents();
     let data = [...this.students];
 
     // Search filter
@@ -387,7 +387,7 @@ selectedStudentForGrade: any = null;
 
 // Search students by roll, name, department
 get searchStudents() {
-  this.loadGradeStudents();
+  // this.loadGradeStudents();
   let results = [...this.students];
   const term = this.gradeSearchTerm.trim().toLowerCase();
   const dept = this.gradeSearchDept.trim();

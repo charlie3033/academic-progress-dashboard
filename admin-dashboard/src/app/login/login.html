@@ -32,5 +32,31 @@
     </form>
   </div>
 
+  <!-- OTP FORM -->
+  <div *ngIf="showOtp">
+    <form (ngSubmit)="verifyOtp()" #loginForm="ngForm">
+      <div class="input-group">
+        <span class="input-icon">👤</span>
+        <input type="text" placeholder="Username" [(ngModel)]="username" name="username" disabled>
+      </div>
+      <div class="input-group">
+        <span class="input-icon">🔒</span>
+        <input type="password" placeholder="Password" [(ngModel)]="password" name="password" disabled>
+      </div>
+      <div class="input-group">
+        <input type="text" [(ngModel)]="otp" name="otp" placeholder="Enter OTP"
+          maxlength="6" pattern="[0-9]*" inputmode="numeric" required #otpField="ngModel"
+          autofocus>
+      </div>
+      <div class="otp-info">
+        <label>OTP sent to {{maskemail}}</label>
+      </div>
+      <button class="login-btn" type="submit">Verify OTP</button>
+      <button class="link-btn" type="button" (click)="sendOtp()"
+      [disabled]="resendTimer > 0 || isResending">
+      {{isResending ? 'sending...' : resendTimer > 0 ? 'Resend OTP (' + resendTimer + 's)' : 'Resend OTP'}}</button>
+    </form>
+  </div>
+</div>
   <!-- </body>
 </html> -->

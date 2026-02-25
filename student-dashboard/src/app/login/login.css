@@ -10,7 +10,6 @@
     }
     body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(145deg, #4e73df, #1cc88a);
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -79,8 +78,37 @@
 }
 .login{
   justify-content: center;
-  /* display: flex; */
+  font-family: Arial, sans-serif;
+  background: linear-gradient(165deg, #c96d2b,#854517,#854517,#854517,#854517,#b97c25);
+  height: 60vh;
+  justify-content: center;
+  align-items: center;
+  width: 1100px;
+  display: flex;
+  min-width: 1100px;
+  min-height: 60vh;
+  border-radius: 30px;
+  box-shadow: 5px 5px 50px rgba(168, 119, 26, 0.875);
 }
+.left-heading{
+      width:40%;
+      /* display: flex; */
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding-left: 50px;
+    }
+    .left-heading h1{
+      color: #e2dede;
+      font-size: 40px;
+      margin-top:0px;
+    }
+    .right-heading{
+      width:50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 .note{
   margin-left: 5px;
   font-weight: bold;
@@ -125,6 +153,11 @@
   text-align: center;
   background: linear-gradient(135deg, #e09e4d, #854517);
 }
+.login-card p {
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: left;
+}
 
 /* Avatar */
 .avatar-circle {
@@ -149,12 +182,12 @@
 /* Back Button */
 .back-btn {
   position: absolute;
-  left: 15px;
-  top: 15px;
+  left: 25px;
+  top: 20px;
   background: none;
   border: none;
   color: white;
-  font-size: 18px;
+  font-size: 15px;
   cursor: pointer;
 }
 

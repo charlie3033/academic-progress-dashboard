@@ -1,54 +1,70 @@
-<!-- <html>
+<html>
   <head>
     <meta charset="UTF-8">
     <title>Student Login</title>
   </head>
-  <body> -->
-    <div class="login-wrapper">
-      <div class="login-card">
-          <div class="avatar-circle">
-            <span class="avatar-icon">👤</span>
+  <body>
+    <div class="login">
+      <div class="left-heading"><h1>Academic Progress</h1><h1>Dashboard</h1></div>
+      <div class="right-heading">
+        <div class="login-card">
+          <!-- -------login page------- -->
+          <div *ngIf="!showForgot && !showOtp">
+            <div class="avatar-circle">
+              <span class="avatar-icon">👤</span>
+            </div>
+            <h2>Student Login!</h2>
+            <form id="loginForm" (ngSubmit)="login()">
+              <div class="input-group">
+                <input [(ngModel)]="roll" type="email" name="email" placeholder="Roll Number" required id="email"/>
+              </div>
+                <div class="input-group">
+                  <input [(ngModel)]="password" id="password" name="password" type="password" placeholder="Password" required />
+                </div>
+              <button class="login-btn" type="submit">Login</button>
+            </form>
+            <!-- <a class="link-btn" (click)="openForgot()">Forgot Password?</a> -->
+          </div>
+          <!-- -------forgot page------- -->
+          <div *ngIf="showForgot">
+            <button class="back-btn" type="button" (click)="goBack()">⬅ Back</button>
+            <h2 class="second-title">Forgot Password ?</h2>
+            <br>
+            <p>Enter Your Roll No. below, We will send an OTP to your registered email address.</p>
+            <form id="forgotForm" (ngSubmit)="sendResetLink()">
+              <div class="input-group">
+                <input [(ngModel)]="roll" type="email" name="email" placeholder="Roll Number" required id="email"/>
+              </div>
+              <button class="login-btn" type="submit" style="margin-top: 10px;">Send Reset Link</button>
+            </form>
+          </div>
+          <!-- ------- otp page------- -->
+          <div *ngIf="showOtp">
+            <button class="back-btn" type="button" (click)="goBackToForgot()">⬅ Back</button>
+            <h2>Forgot Password ?</h2>
+            <form id="otpForm" (ngSubmit)="verifyOtp()">
+              <div class="input-group">
+                <input [(ngModel)]="roll" type="email" name="email" placeholder="Roll Number" required id="email" disabled/>
+              </div>
+              <div class="input-group">
+                <input [(ngModel)]="otp" name="otp" placeholder="Enter OTP"
+                  maxlength="6" pattern="[0-9]*" inputmode="numeric" required #otpField="ngModel"
+                  autofocus>
+              </div>
+              <div class="otp-info">
+                <label>OTP sent to {{maskemail}}</label>
+              </div>
+              <button class="login-btn" type="submit">Verify OTP</button>
+              <button class="link-btn" type="button" (click)="sendOtp()"
+              [disabled]="resendTimer > 0 || isResending">
+              {{isResending ? 'sending...' : resendTimer > 0 ? 'Resend OTP (' + resendTimer + 's)' : 'Resend OTP'}}</button>
+            </form>
           </div>
 
-          <h2>Student Login!</h2>
-      <form id="loginForm" (ngSubmit)="login()">
-        <div class="input-group">
-          <input [(ngModel)]="email" type="email" name="email" placeholder="Roll Number" required id="email"/>
-        </div>
-          <div class="input-group">
-            <input [(ngModel)]="password" id="password" name="password" type="password" placeholder="Password" required />
-          </div>
-        <button class="login-btn" type="submit">Login</button>
-      </form>
-
-      <a class="link-btn" (click)="openForgot()">Forgot Password?</a>
       </div>
+      </div>
+
       <br>
-    </div>
-
-    <!-- Forgot Pass POPUP -->
-    <div class="forgot-modal" *ngIf="showForgot">
-      <div class="box">
-        <h3>Reset Password</h3>
-
-        <div *ngIf="step === 1">
-          <input [(ngModel)]="fp_email" name="fp_email" placeholder="Enter Registered Email"/>
-          <button (click)="sendOtp()">Send OTP</button>
-        </div>
-
-        <div *ngIf="step === 2">
-          <input [(ngModel)]="otp" name="otp" placeholder="Enter OTP" />
-          <button (click)="verifyOtp()">Verify OTP</button>
-        </div>
-
-        <div *ngIf="step === 3">
-          <input type="password" [(ngModel)]="newPass" name="newPass" placeholder="New Password" />
-          <input type="password" [(ngModel)]="confirmPass" name="confirmPass" placeholder="Confirm Password" />
-          <button (click)="changePassword()">Update Password</button>
-        </div>
-
-        <button class="close" (click)="closeForgot()">Close</button>
-      </div>
     </div>
       <!-- <div class="login-note-tab">
         <p class="note">Note:-</p>
@@ -61,7 +77,7 @@
       </div> -->
 
 
-  <!-- </body>
-</html> -->
+  </body>
+</html>
 
 

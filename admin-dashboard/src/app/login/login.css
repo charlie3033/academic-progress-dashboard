@@ -118,17 +118,40 @@ form {
 
 
 /* Background */
-.login-wrapper {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #8e5c6c, #2b3a67);
-  font-family: 'Segoe UI', sans-serif;
-  background: #f7f7f7;
-}
+.login{
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(165deg, #c96d2b,#854517,#854517,#854517,#854517,#b97c25);
+      height: 65vh;
+      justify-content: center;
+      align-items: center;
+      width: 1100px;
+      display: flex;
+      min-width: 1100px;
+      min-height: 65vh;
+      border-radius: 30px;
+      box-shadow: 5px 5px 50px rgba(168, 119, 26, 0.875);
+    }
+    .left-heading{
+      width:40%;
+      /* display: flex; */
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding-left: 50px;
+    }
+    .left-heading h1{
+      color: #e2dede;
+      font-size: 40px;
+      margin-top:0px;
+    }
+    .right-heading{
+      width:50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-/* Glass Card */
 .login-card {
   position: relative;
   width: 360px;
@@ -136,10 +159,10 @@ form {
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(18px);
   border-radius: 20px;
-  box-shadow: 0 25px 45px rgba(199, 139, 10, 0.521);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.671);
   color: white;
   text-align: center;
-  background: linear-gradient(135deg, #e09e4d, #854517);
+  background: linear-gradient(135deg, #d38a32, #854517);
 }
 
 /* Avatar */
@@ -256,3 +279,4 @@ form {
 .link-btn:hover:not(:disabled) {
   text-decoration: underline;
 }
+

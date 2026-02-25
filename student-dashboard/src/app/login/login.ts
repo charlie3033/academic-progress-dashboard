@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject,ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -14,34 +14,42 @@ import { environment } from '../../environments/environment';
 export class Login {
   private router = inject(Router);
   private http = inject(HttpClient);
+  private cdr = inject(ChangeDetectorRef);
 
-  email = '';
+  roll = '';
   password = '';
   error = '';
 
-  showForgot = false;
+
   fp_email = "";
-  otp = "";
   newPass = "";
   confirmPass = "";
   step = 1;
 
+  showOtp = false;
+  otp:string = "";
+  maskemail:string ='';
+  resendTimer:number=0;
+  timerInterval:any;
+  isLoading=false;
+  isResending = false;
+  showForgot = false;
+
+
   login() {
     this.http.post(`${environment.apiUrl}/students/login`, {
-        roll: this.email.trim(),
+        roll: this.roll.trim(),
         password: this.password.trim()
     })
     .subscribe({
         next: (res: any) => {
           console.log("Login Response:", res);
-
           localStorage.setItem('student', JSON.stringify(res.student));
-
           this.router.navigate(['/dash']);
         },
         error: (err) => {
           console.log(err);
-          alert("Invalid email or password!");
+          alert("Invalid Credentials!");
           this.error = err?.message || 'Login failed. Please try again.';
         }
     });
@@ -49,7 +57,6 @@ export class Login {
 
   openForgot() {
     this.showForgot = true;
-    this.step = 1;
   }
 
   closeForgot() {
@@ -82,5 +89,38 @@ export class Login {
         this.closeForgot();
       });
   }
+
+  goBack() {
+    this.showOtp = false;
+    this.otp = '';        // clear OTP field
+    this.isLoading = false; // reset loading state
+    clearInterval(this.timerInterval);
+    this.cdr.detectChanges();
+    window.location.reload();
+  }
+  goBackToForgot() {
+    this.showOtp = false;
+    this.otp = '';        // clear OTP field
+    this.isLoading = false;
+    clearInterval(this.timerInterval);
+    this.showForgot = true;
+    this.cdr.detectChanges();
+  }
+
+  sendResetLink() {
+    this.http.post(`${environment.apiUrl}/students/send-reset-link`, { roll: this.roll })
+    .subscribe({
+      next: () => {
+        alert("Reset link sent to your email!");
+        this.showForgot = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        alert("Error sending reset link. Please try again.");
+        // this.cdr.detectChanges();
+      }
+    })
+  }
+
 
 }

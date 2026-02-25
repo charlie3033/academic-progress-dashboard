@@ -227,4 +227,28 @@ router.post("/auto", async (req, res) => {
   }
 });
 
+router.post("/send-reset-link", async (req, res) => {
+  try {
+    const { roll } = req.body;
+    const student = await Student.findOne({ roll });
+    if (!student) {
+      return res.status(404).json({ error: "Student not found" });
+    } else {    
+      // Simulate sending email by logging to console
+      console.log(`Simulated email to ${student.email}:`);
+      console.log(`Subject: Password Reset Request`);
+      console.log(`Dear ${student.name},`);
+      console.log(`We received a request to reset your password. If you made this request, please click the link below to reset your password:`);
+      console.log(`http://localhost:4200/reset-password?roll=${student.roll}`);
+      console.log(`If you did not request a password reset, please ignore this email.`);
+      console.log(`Best regards,`);
+      console.log(`Academic Progress Dashboard Team`);
+    }
+    res.json({ message: "Reset link sent to your email!" });
+  } catch (err) {
+    console.error("Error sending reset link:", err);
+    res.status(500).json({ error: "Server error", details: err.message });
+  }
+});
+
 module.exports = router;

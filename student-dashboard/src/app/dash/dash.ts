@@ -41,6 +41,7 @@ export class Dash {
     this.loadCourses();
     this.loadResult();
     this.loadPendingStatus();
+    this.loadDepartmentName();
   }
 
   loadCourses(){
